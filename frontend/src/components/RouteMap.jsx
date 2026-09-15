@@ -1,7 +1,7 @@
 /**
- * RouteMap Component - Dark Mode Edition.
- * Renders an interactive Leaflet map styled with CartoDB Dark Matter tiles,
- * customized neon route polylines, and popups.
+ * RouteMap Component - Dark Mode Edition (Clean Tiles).
+ * Uses official OpenStreetMap tiles with an inverted dark CSS filter.
+ * Eliminates third-party API key watermarks while maintaining a sleek command-center look.
  */
 
 import React, { useEffect } from 'react';
@@ -9,7 +9,7 @@ import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap } from 'react-
 import L from 'leaflet';
 import { Box, Paper, Typography } from '@mui/material';
 
-// Marker icon asset fix for bundlers
+// Fix marker icon asset resolution in bundled environments
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// Viewport auto-centering component
+// Auto-focuses the map viewport around bounding coordinates
 function ChangeView({ bounds }) {
   const map = useMap();
   useEffect(() => {
@@ -76,13 +76,24 @@ export default function RouteMap({ locations, routeCoordinates }) {
           Interactive Highway Corridor Map
         </Typography>
       </Box>
-      <Box sx={{ height: '420px', width: '100%' }}>
+
+      {/* Map viewport with custom CSS filter to make official OSM tiles dark */}
+      <Box
+        sx={{
+          height: '420px',
+          width: '100%',
+          '& .leaflet-tile-pane': {
+            filter: 'brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.25) brightness(0.7)',
+          },
+        }}
+      >
         <MapContainer center={currentPos} zoom={5} style={{ height: '100%', width: '100%' }}>
           <ChangeView bounds={allPoints} />
-          {/* CartoDB Dark Matter Tiles for seamless dark-mode maps */}
+
+          {/* Official, unlimited, unwatermarked OpenStreetMap tiles */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
           {/* Current / Start Marker */}
@@ -109,13 +120,13 @@ export default function RouteMap({ locations, routeCoordinates }) {
             </Popup>
           </Marker>
 
-          {/* Route Polyline in Vivid Neon Cyan */}
+          {/* High-visibility Neon Cyan Route Corridor */}
           {routeCoordinates && routeCoordinates.length > 0 && (
             <Polyline
               positions={routeCoordinates}
               color="#00f0ff"
               weight={5}
-              opacity={0.85}
+              opacity={0.9}
             />
           )}
         </MapContainer>
