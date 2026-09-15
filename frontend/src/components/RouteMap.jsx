@@ -1,7 +1,7 @@
 /**
- * RouteMap Component.
- * Displays interactive Leaflet map with calculated route polyline,
- * start/pickup/dropoff markers, and automatic viewport centering.
+ * RouteMap Component - Dark Mode Edition.
+ * Renders an interactive Leaflet map styled with CartoDB Dark Matter tiles,
+ * customized neon route polylines, and popups.
  */
 
 import React, { useEffect } from 'react';
@@ -9,7 +9,7 @@ import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap } from 'react-
 import L from 'leaflet';
 import { Box, Paper, Typography } from '@mui/material';
 
-// Fix default marker icon issues with bundlers
+// Marker icon asset fix for bundlers
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// Helper component to auto-fit map view bounds around coordinates
+// Viewport auto-centering component
 function ChangeView({ bounds }) {
   const map = useMap();
   useEffect(() => {
@@ -31,8 +31,22 @@ function ChangeView({ bounds }) {
 export default function RouteMap({ locations, routeCoordinates }) {
   if (!locations || !locations.current) {
     return (
-      <Paper elevation={2} sx={{ p: 4, textAlign: 'center', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography color="text.secondary">Submit the trip details to render the route on the map.</Typography>
+      <Paper
+        elevation={2}
+        sx={{
+          p: 4,
+          textAlign: 'center',
+          height: '420px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          bgcolor: '#0f172a',
+          border: '1px solid rgba(148, 163, 184, 0.12)',
+        }}
+      >
+        <Typography color="text.secondary">
+          Configure parameters above and click "Calculate Route" to render the live dark map.
+        </Typography>
       </Paper>
     );
   }
@@ -42,36 +56,44 @@ export default function RouteMap({ locations, routeCoordinates }) {
   const pickupPos = [pickup.lat, pickup.lon];
   const dropoffPos = [dropoff.lat, dropoff.lon];
 
-  // Collect all points for map boundary calculation
   const allPoints = [currentPos, pickupPos, dropoffPos];
   if (routeCoordinates && routeCoordinates.length > 0) {
     allPoints.push(...routeCoordinates);
   }
 
   return (
-    <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden', mb: 4 }}>
-      <Box sx={{ p: 2, bgcolor: '#f5f5f5', borderBottom: '1px solid #ddd' }}>
-        <Typography variant="subtitle1" fontWeight="bold">
-          Interactive Trip Route
+    <Paper
+      elevation={3}
+      sx={{
+        borderRadius: 3,
+        overflow: 'hidden',
+        border: '1px solid rgba(148, 163, 184, 0.15)',
+        bgcolor: '#0f172a',
+      }}
+    >
+      <Box sx={{ p: 2, bgcolor: '#0b1120', borderBottom: '1px solid rgba(148, 163, 184, 0.12)' }}>
+        <Typography variant="subtitle2" fontWeight="bold" sx={{ color: '#f8fafc' }}>
+          Interactive Highway Corridor Map
         </Typography>
       </Box>
-      <Box sx={{ height: '450px', width: '100%' }}>
+      <Box sx={{ height: '420px', width: '100%' }}>
         <MapContainer center={currentPos} zoom={5} style={{ height: '100%', width: '100%' }}>
           <ChangeView bounds={allPoints} />
+          {/* CartoDB Dark Matter Tiles for seamless dark-mode maps */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           />
 
-          {/* Start Point Marker */}
+          {/* Current / Start Marker */}
           <Marker position={currentPos}>
             <Popup>
-              <strong>Start / Current Location:</strong><br />
+              <strong>Current Location:</strong><br />
               {current.display_name}
             </Popup>
           </Marker>
 
-          {/* Pickup Point Marker */}
+          {/* Pickup Marker */}
           <Marker position={pickupPos}>
             <Popup>
               <strong>Pickup Location:</strong><br />
@@ -79,7 +101,7 @@ export default function RouteMap({ locations, routeCoordinates }) {
             </Popup>
           </Marker>
 
-          {/* Dropoff Point Marker */}
+          {/* Dropoff Marker */}
           <Marker position={dropoffPos}>
             <Popup>
               <strong>Dropoff Location:</strong><br />
@@ -87,9 +109,14 @@ export default function RouteMap({ locations, routeCoordinates }) {
             </Popup>
           </Marker>
 
-          {/* Route Polyline */}
+          {/* Route Polyline in Vivid Neon Cyan */}
           {routeCoordinates && routeCoordinates.length > 0 && (
-            <Polyline positions={routeCoordinates} color="#1976d2" weight={5} opacity={0.75} />
+            <Polyline
+              positions={routeCoordinates}
+              color="#00f0ff"
+              weight={5}
+              opacity={0.85}
+            />
           )}
         </MapContainer>
       </Box>

@@ -1,8 +1,8 @@
 /**
- * Main Application Dashboard.
+ * Main Application Dashboard - Dark Mode Edition.
  * Built with Material UI v5.
- * Features a modern logistics dashboard theme, preset test routes,
- * KPI summary metrics, interactive Leaflet route map, and multi-day ELD log viewers.
+ * Features a modern dark cyber-logistics command center aesthetic,
+ * quick route presets, KPI stat widgets, dark Leaflet route mapping, and multi-day ELD logs.
  */
 
 import React, { useState } from 'react';
@@ -41,48 +41,63 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import BoltIcon from '@mui/icons-material/Bolt';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 import RouteMap from './components/RouteMap';
 import DailyLogSheet from './components/DailyLogSheet';
 
-// Modern Logistics Material UI Theme
-const theme = createTheme({
+// Advanced Cyber Logistics Dark Theme
+const darkTheme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
-      main: '#0f172a', // Deep slate navy
-      light: '#334155',
-      contrastText: '#ffffff',
+      main: '#38bdf8', // Neon Sky Blue
+      light: '#7dd3fc',
+      dark: '#0284c7',
+      contrastText: '#0b0f19',
     },
     secondary: {
-      main: '#2563eb', // Vivid Royal Blue
+      main: '#818cf8', // Electric Indigo
+      light: '#a5b4fc',
+      dark: '#4f46e5',
     },
     background: {
-      default: '#f8fafc',
-      paper: '#ffffff',
+      default: '#070b12',
+      paper: '#0f172a',
     },
+    text: {
+      primary: '#f8fafc',
+      secondary: '#94a3b8',
+    },
+    divider: 'rgba(148, 163, 184, 0.12)',
     success: {
       main: '#10b981',
     },
+    warning: {
+      main: '#f59e0b',
+    },
   },
   typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Plus Jakarta Sans", "Inter", "Roboto", sans-serif',
     h6: {
       fontWeight: 700,
+      letterSpacing: '-0.02em',
     },
     subtitle1: {
       fontWeight: 600,
     },
   },
   shape: {
-    borderRadius: 10,
+    borderRadius: 12,
   },
   components: {
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
-          border: '1px solid #e2e8f0',
+          backgroundColor: '#0f172a',
+          backgroundImage: 'radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.03) 0px, transparent 50%)',
+          border: '1px solid rgba(148, 163, 184, 0.12)',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4)',
         },
       },
     },
@@ -90,15 +105,35 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          fontWeight: 600,
+          fontWeight: 700,
           borderRadius: 8,
+          letterSpacing: '0.02em',
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            backgroundColor: 'rgba(15, 23, 42, 0.6)',
+            '& fieldset': {
+              borderColor: 'rgba(148, 163, 184, 0.2)',
+            },
+            '&:hover fieldset': {
+              borderColor: '#38bdf8',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#38bdf8',
+              boxShadow: '0 0 0 3px rgba(56, 189, 248, 0.2)',
+            },
+          },
         },
       },
     },
   },
 });
 
-// Quick preset routes for recruiter testing
+// Quick preset test routes
 const PRESETS = [
   {
     label: 'Coast-to-Coast (3-4 Days)',
@@ -177,80 +212,106 @@ export default function App() {
   const cycleRatio = Math.min(100, ((parseFloat(cycleUsedHours) || 0) / 70) * 100);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 8 }}>
+      <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 10 }}>
         {/* Navigation Bar */}
-        <AppBar position="sticky" elevation={0} sx={{ bgcolor: 'primary.main', borderBottom: '1px solid #1e293b' }}>
+        <AppBar
+          position="sticky"
+          elevation={0}
+          sx={{
+            bgcolor: 'rgba(15, 23, 42, 0.85)',
+            backdropFilter: 'blur(12px)',
+            borderBottom: '1px solid rgba(148, 163, 184, 0.1)',
+          }}
+        >
           <Toolbar sx={{ justifyContent: 'space-between' }}>
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Box
                 sx={{
-                  bgcolor: 'secondary.main',
-                  p: 0.8,
-                  borderRadius: 1.5,
+                  bgcolor: 'rgba(56, 189, 248, 0.15)',
+                  border: '1px solid rgba(56, 189, 248, 0.3)',
+                  p: 0.9,
+                  borderRadius: 2,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <LocalShippingIcon sx={{ color: '#fff', fontSize: 24 }} />
+                <LocalShippingIcon sx={{ color: '#38bdf8', fontSize: 26 }} />
               </Box>
               <Box>
-                <Typography variant="h6" sx={{ color: '#fff', lineHeight: 1.1 }}>
+                <Typography variant="h6" sx={{ color: '#f8fafc', lineHeight: 1.1 }}>
                   Spotter AI
                 </Typography>
-                <Typography variant="caption" sx={{ color: '#94a3b8' }}>
-                  HOS Route Planner & Automated ELD Engine
+                <Typography variant="caption" sx={{ color: '#38bdf8', fontWeight: 600 }}>
+                  HOS ROUTE OPTIMIZER & ELD ENGINE
                 </Typography>
               </Box>
             </Stack>
 
-            <Stack direction="row" spacing={1} sx={{ display: { xs: 'none', sm: 'flex' } }}>
+            <Stack direction="row" spacing={1} alignItems="center">
               <Chip
-                icon={<VerifiedUserIcon sx={{ fontSize: '16px !important', color: '#10b981 !important' }} />}
-                label="FMCSA 70h/8d Compliant"
+                icon={<VerifiedUserIcon sx={{ fontSize: '15px !important', color: '#10b981 !important' }} />}
+                label="FMCSA 70h/8d"
                 size="small"
-                sx={{ bgcolor: '#1e293b', color: '#cbd5e1', fontWeight: 500 }}
+                sx={{
+                  bgcolor: 'rgba(16, 185, 129, 0.1)',
+                  color: '#34d399',
+                  border: '1px solid rgba(16, 185, 129, 0.25)',
+                  fontWeight: 600,
+                }}
               />
               <Chip
-                label="49 CFR § 395"
+                icon={<DarkModeIcon sx={{ fontSize: '14px !important', color: '#818cf8 !important' }} />}
+                label="Night Ops UI"
                 size="small"
-                sx={{ bgcolor: '#1e293b', color: '#94a3b8', fontWeight: 500 }}
+                sx={{
+                  bgcolor: 'rgba(99, 102, 241, 0.1)',
+                  color: '#a5b4fc',
+                  border: '1px solid rgba(99, 102, 241, 0.25)',
+                  fontWeight: 600,
+                  display: { xs: 'none', sm: 'inline-flex' },
+                }}
               />
             </Stack>
           </Toolbar>
         </AppBar>
 
         <Container maxWidth="xl" sx={{ mt: 3 }}>
-          {/* Main Layout Grid */}
+          {/* Main Top Grid */}
           <Grid container spacing={3}>
-            {/* Input & Parameters Card */}
+            {/* Input Form Card */}
             <Grid item xs={12} lg={4}>
               <Card>
                 <CardContent sx={{ p: 3 }}>
-                  <Typography variant="subtitle1" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <RouteIcon color="primary" /> Trip Dispatch Configuration
+                  <Typography variant="subtitle1" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1, color: '#f8fafc' }}>
+                    <RouteIcon sx={{ color: '#38bdf8' }} /> Dispatch Parameters
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    Configure the origin, freight transfer points, and driver cycle balance.
+                    Define locations to calculate compliance routes, stops, and automated log books.
                   </Typography>
 
-                  {/* Preset Buttons for Quick Testing */}
-                  <Typography variant="caption" sx={{ fontWeight: 600, color: '#64748b', textTransform: 'uppercase' }}>
+                  {/* Preset Fast Selection */}
+                  <Typography variant="caption" sx={{ fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                     Quick Route Presets
                   </Typography>
-                  <Stack direction="row" spacing={1} sx={{ mt: 0.8, mb: 2.5, flexWrap: 'wrap', gap: 0.5 }}>
+                  <Stack direction="row" spacing={1} sx={{ mt: 0.8, mb: 2.5, flexWrap: 'wrap', gap: 0.8 }}>
                     {PRESETS.map((p, idx) => (
                       <Chip
                         key={idx}
                         label={p.label}
                         size="small"
-                        icon={<BoltIcon sx={{ fontSize: '14px !important' }} />}
+                        icon={<BoltIcon sx={{ fontSize: '14px !important', color: '#38bdf8 !important' }} />}
                         onClick={() => applyPreset(p)}
                         clickable
                         variant="outlined"
-                        color="secondary"
+                        sx={{
+                          borderColor: 'rgba(56, 189, 248, 0.3)',
+                          bgcolor: 'rgba(56, 189, 248, 0.05)',
+                          color: '#e2e8f0',
+                          '&:hover': { bgcolor: 'rgba(56, 189, 248, 0.15)', borderColor: '#38bdf8' },
+                        }}
                       />
                     ))}
                   </Stack>
@@ -267,7 +328,7 @@ export default function App() {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <FmdGoodIcon fontSize="small" sx={{ color: '#64748b' }} />
+                              <FmdGoodIcon fontSize="small" sx={{ color: '#94a3b8' }} />
                             </InputAdornment>
                           ),
                         }}
@@ -283,7 +344,7 @@ export default function App() {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <FmdGoodIcon fontSize="small" sx={{ color: '#0284c7' }} />
+                              <FmdGoodIcon fontSize="small" sx={{ color: '#38bdf8' }} />
                             </InputAdornment>
                           ),
                         }}
@@ -317,7 +378,7 @@ export default function App() {
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
-                                <AccessTimeIcon fontSize="small" sx={{ color: '#64748b' }} />
+                                <AccessTimeIcon fontSize="small" sx={{ color: '#94a3b8' }} />
                               </InputAdornment>
                             ),
                           }}
@@ -327,7 +388,7 @@ export default function App() {
                             <Typography variant="caption" color="text.secondary">
                               Cycle Consumption
                             </Typography>
-                            <Typography variant="caption" fontWeight="bold">
+                            <Typography variant="caption" fontWeight="bold" sx={{ color: cycleRatio > 80 ? '#f87171' : '#38bdf8' }}>
                               {cycleUsedHours}h / 70h
                             </Typography>
                           </Stack>
@@ -338,9 +399,9 @@ export default function App() {
                               height: 6,
                               borderRadius: 3,
                               mt: 0.5,
-                              bgcolor: '#e2e8f0',
+                              bgcolor: 'rgba(148, 163, 184, 0.1)',
                               '& .MuiLinearProgress-bar': {
-                                bgcolor: cycleRatio > 80 ? '#ef4444' : '#2563eb',
+                                bgcolor: cycleRatio > 80 ? '#ef4444' : '#38bdf8',
                               },
                             }}
                           />
@@ -356,12 +417,18 @@ export default function App() {
                         startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <RouteIcon />}
                         sx={{
                           mt: 1,
-                          py: 1.3,
-                          bgcolor: 'secondary.main',
-                          '&:hover': { bgcolor: '#1d4ed8' },
+                          py: 1.4,
+                          bgcolor: '#0284c7',
+                          color: '#ffffff',
+                          fontWeight: 700,
+                          boxShadow: '0 4px 15px rgba(2, 132, 199, 0.4)',
+                          '&:hover': {
+                            bgcolor: '#0369a1',
+                            boxShadow: '0 6px 20px rgba(2, 132, 199, 0.6)',
+                          },
                         }}
                       >
-                        {loading ? 'Simulating HOS & Route...' : 'Generate Route & ELD Logs'}
+                        {loading ? 'Executing HOS Simulation...' : 'Calculate Route & Generate ELD'}
                       </Button>
                     </Stack>
                   </form>
@@ -369,21 +436,21 @@ export default function App() {
               </Card>
             </Grid>
 
-            {/* Metrics & Interactive Map Card */}
+            {/* Metrics and Dark Map Column */}
             <Grid item xs={12} lg={8}>
               <Stack spacing={3}>
                 {/* Metric Summary Cards */}
                 <Grid container spacing={2}>
                   <Grid item xs={6} sm={3}>
-                    <Card sx={{ bgcolor: '#ffffff' }}>
+                    <Card>
                       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                          <SpeedIcon color="primary" fontSize="small" />
-                          <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                            TOTAL DISTANCE
+                          <SpeedIcon sx={{ color: '#38bdf8', fontSize: 18 }} />
+                          <Typography variant="caption" color="text.secondary" fontWeight={700}>
+                            TOTAL MILES
                           </Typography>
                         </Stack>
-                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5, color: '#f8fafc' }}>
                           {planData ? `${planData.summary.total_miles} mi` : '--'}
                         </Typography>
                       </CardContent>
@@ -391,15 +458,15 @@ export default function App() {
                   </Grid>
 
                   <Grid item xs={6} sm={3}>
-                    <Card sx={{ bgcolor: '#ffffff' }}>
+                    <Card>
                       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                          <CalendarMonthIcon color="secondary" fontSize="small" />
-                          <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                            TRANSIT DAYS
+                          <CalendarMonthIcon sx={{ color: '#818cf8', fontSize: 18 }} />
+                          <Typography variant="caption" color="text.secondary" fontWeight={700}>
+                            SCHEDULED DAYS
                           </Typography>
                         </Stack>
-                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5, color: '#f8fafc' }}>
                           {planData ? `${planData.summary.total_days} Days` : '--'}
                         </Typography>
                       </CardContent>
@@ -407,15 +474,15 @@ export default function App() {
                   </Grid>
 
                   <Grid item xs={6} sm={3}>
-                    <Card sx={{ bgcolor: '#ffffff' }}>
+                    <Card>
                       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                          <RouteIcon sx={{ color: '#0284c7' }} fontSize="small" />
-                          <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                          <RouteIcon sx={{ color: '#34d399', fontSize: 18 }} />
+                          <Typography variant="caption" color="text.secondary" fontWeight={700}>
                             LOADED HAUL
                           </Typography>
                         </Stack>
-                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5, color: '#f8fafc' }}>
                           {planData ? `${planData.summary.leg2_miles} mi` : '--'}
                         </Typography>
                       </CardContent>
@@ -423,15 +490,15 @@ export default function App() {
                   </Grid>
 
                   <Grid item xs={6} sm={3}>
-                    <Card sx={{ bgcolor: '#ffffff' }}>
+                    <Card>
                       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                          <LocalGasStationIcon sx={{ color: '#f59e0b' }} fontSize="small" />
-                          <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                            FUEL INTERVALS
+                          <LocalGasStationIcon sx={{ color: '#fbbf24', fontSize: 18 }} />
+                          <Typography variant="caption" color="text.secondary" fontWeight={700}>
+                            FUEL RECHARGE
                           </Typography>
                         </Stack>
-                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5 }}>
+                        <Typography variant="h5" fontWeight="bold" sx={{ mt: 0.5, color: '#f8fafc' }}>
                           {planData ? `Every 1,000 mi` : '--'}
                         </Typography>
                       </CardContent>
@@ -439,9 +506,9 @@ export default function App() {
                   </Grid>
                 </Grid>
 
-                {error && <Alert severity="error">{error}</Alert>}
+                {error && <Alert severity="error" sx={{ bgcolor: 'rgba(239, 68, 68, 0.1)', color: '#fca5a5' }}>{error}</Alert>}
 
-                {/* Map Display */}
+                {/* Dark Route Map Container */}
                 <RouteMap
                   locations={planData?.locations}
                   routeCoordinates={planData?.route_coordinates}
@@ -450,34 +517,45 @@ export default function App() {
             </Grid>
           </Grid>
 
-          {/* ELD Logs Section */}
+          {/* ELD Multi-Day Log Section */}
           {planData && planData.daily_logs && planData.daily_logs.length > 0 && (
             <Box sx={{ mt: 4 }}>
-              <Divider sx={{ mb: 3 }} />
+              <Divider sx={{ mb: 3, borderColor: 'rgba(148, 163, 184, 0.15)' }} />
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexWrap: 'wrap', gap: 1 }}>
                 <Box>
-                  <Typography variant="h5" fontWeight="bold">
-                    Electronic Logging Device (ELD) - Daily Sheets
+                  <Typography variant="h5" fontWeight="bold" sx={{ color: '#f8fafc' }}>
+                    Electronic Logging Device (ELD) - Daily Graph Sheets
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Official FMCSA 24-hour graph grid. Each daily log sums up to exactly 24.0 hours.
+                    Standard 24-hour logs with stepped duty transitions. Every day strictly balances to 24.0 hours.
                   </Typography>
                 </Box>
                 <Chip
                   label={`${planData.daily_logs.length} Log Sheet(s) Generated`}
-                  color="primary"
-                  variant="outlined"
-                  sx={{ fontWeight: 'bold' }}
+                  sx={{
+                    bgcolor: 'rgba(56, 189, 248, 0.1)',
+                    color: '#38bdf8',
+                    border: '1px solid rgba(56, 189, 248, 0.3)',
+                    fontWeight: 700,
+                  }}
                 />
               </Box>
 
-              {/* Day Tabs */}
-              <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3, bgcolor: '#ffffff', borderRadius: 2 }}>
+              {/* Day Selection Tabs */}
+              <Box sx={{ borderBottom: 1, borderColor: 'rgba(148, 163, 184, 0.15)', mb: 3 }}>
                 <Tabs
                   value={selectedDayTab}
                   onChange={(e, newVal) => setSelectedDayTab(newVal)}
                   variant="scrollable"
                   scrollButtons="auto"
+                  sx={{
+                    '& .MuiTabs-indicator': { bgcolor: '#38bdf8', height: 3 },
+                    '& .MuiTab-root': {
+                      color: '#94a3b8',
+                      fontWeight: 600,
+                      '&.Mui-selected': { color: '#38bdf8' },
+                    },
+                  }}
                 >
                   {planData.daily_logs.map((log, index) => (
                     <Tab
@@ -485,13 +563,12 @@ export default function App() {
                       icon={<CalendarMonthIcon sx={{ fontSize: 18 }} />}
                       iconPosition="start"
                       label={`Day ${log.day_number} (${log.date})`}
-                      sx={{ fontWeight: 600 }}
                     />
                   ))}
                 </Tabs>
               </Box>
 
-              {/* Active Day Log Component */}
+              {/* Render Active Daily Log Sheet */}
               <DailyLogSheet logData={planData.daily_logs[selectedDayTab]} />
             </Box>
           )}
